@@ -28,6 +28,7 @@ function login(e) {
     showPage('report');
   } else {
     showPage('dashboard');
+    document.getElementById("menuPerformance").classList.remove("d-none");
   }
 
   document.getElementById("menuLogout").classList.remove("d-none");
@@ -85,57 +86,10 @@ function updateReport() {
   `).join('');
 }
 
-function showDetail(index) {
-  const d = dataList[index];
-  let buttonsHtml = '';
+function updatePerformance() {
+  const teknisiData = {};
 
-  // Tombol berdasarkan status awal
-  if (d.status === "Menunggu Pickup") {
-    buttonsHtml = `
-      <button class="btn btn-primary" onclick="pickup(${index})">Pickup</button>
-      <button class="btn btn-secondary" onclick="cancel(${index})">Batal</button>
-    `;
-  } else if (d.status === "Picked Up") {
-    buttonsHtml = `
-      <button class="btn btn-warning" onclick="backToHO(${index})">Back to HO</button>
-      <button class="btn btn-success" onclick="complete(${index})">Completed</button>
-    `;
-  } else if (d.status === "Back to HO") {
-    buttonsHtml = `
-      <button class="btn btn-success" onclick="complete(${index})">Completed</button>
-    `;
-  }
-
-  document.getElementById('detailContent').innerHTML = `
-    <p><strong>No WO:</strong> ${d.wo}</p>
-    <p><strong>Nomor Tiket:</strong> ${d.tiket}</p>
-    <p><strong>Tanggal Laporan:</strong> ${d.tglLaporan}</p>
-    <p><strong>Status:</strong> ${d.status}</p>
-    ${buttonsHtml}
-  `;
-  showPage('detail');
-}
-
-function pickup(index) {
-  dataList[index].status = "Picked Up";
-  alert("WO telah diambil oleh teknisi.");
-  updateReport();
-}
-
-function cancel(index) {
-  dataList[index].status = "Menunggu Pickup"; // Kembalikan status ke semula
-  alert("Pickup batal.");
-  updateReport();
-}
-
-function backToHO(index) {
-  dataList[index].status = "Back to HO";
-  alert("WO dikembalikan ke HO.");
-  updateReport();
-}
-
-function complete(index) {
-  dataList[index].status = "Completed";
-  alert("WO selesai.");
-  updateReport();
-}
+  // Menghitung jumlah WO per teknisi dan statusnya
+  dataList.forEach(data => {
+    const teknisi = data.teknisi;
+    if (!teknisiData[te
