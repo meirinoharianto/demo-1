@@ -213,12 +213,13 @@ function login(e) {
     }
 
     function showPage(page) {
-      ['dashboardPage', 'formPage', 'reportPage'].forEach(id =>
-        document.getElementById(id).classList.add('hidden')
-      );
-      document.getElementById(page + 'Page').classList.remove('hidden');
-      if (page === 'report') renderReport();
-    }
+  ['dashboardPage', 'formPage', 'reportPage', 'detailPage'].forEach(id =>
+    document.getElementById(id).classList.add('hidden')
+  );
+  document.getElementById(page + 'Page').classList.remove('hidden');
+  if (page === 'report') renderReport();
+}
+
 
    function submitForm(e) {
   e.preventDefault();
