@@ -110,6 +110,9 @@
 
           <div id="reportPage" class="content hidden">
             <h2>Daftar WO</h2>
+            <button class="btn btn-info mb-3" onclick="openBulkImport()">Bulk Import</button>
+            <!-- Input file untuk bulk import -->
+            <input type="file" id="bulkImportFile" class="hidden" onchange="handleBulkImport(event)" />
             <table class="table">
               <thead class="table-dark">
                 <tr>
