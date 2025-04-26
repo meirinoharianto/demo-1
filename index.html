@@ -179,7 +179,7 @@ function login(e) {
   const user = document.getElementById("username").value;
   const pass = document.getElementById("password").value;
 
-  // Simulasi role
+  // Cek role
   if (user === "admin" && pass === "admin") {
     currentUser = "admin";
     currentRole = "admin";
@@ -194,19 +194,34 @@ function login(e) {
   document.getElementById("loginPage").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
 
-  // Admin ke dashboard, teknisi ke report list
-  if (currentRole === "admin") {
-    showPage('dashboard');
-  } else {
-    showPage('report');
-    // Sembunyikan menu lain
-    document.querySelectorAll('.sidebar a, .bottom-menu a').forEach(a => {
+  // Default tampilkan semua menu
+  document.querySelectorAll('.sidebar a, .bottom-menu a').forEach(a => {
+    a.style.display = "block";
+  });
+
+  // Sembunyikan menu untuk teknisi (hanya tampilkan laporan & logout)
+  if (currentRole === "teknisi") {
+    // Sembunyikan menu dashboard dan form
+    document.getElementById("menuDashboard").style.display = "none";
+    document.getElementById("menuForm").style.display = "none";
+
+    // Sidebar juga bisa disembunyikan jika perlu
+    document.querySelectorAll('.sidebar a').forEach(link => {
+      const text = link.innerText.toLowerCase();
       if (!text.includes('laporan') && !text.includes('keluar')) {
         link.style.display = "none";
       }
     });
+
+    showPage('report');
+  } else {
+    showPage('dashboard');
   }
+
+  // Pastikan menu logout selalu tampil
+  document.getElementById("menuLogout").classList.remove("d-none");
 }
+
 
 
     function logout() {
