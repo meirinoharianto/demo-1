@@ -8,7 +8,39 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     .hidden { display: none; }
-    .content { padding: 20px; }
+    .content {
+  padding: 20px;
+  padding-bottom: 100px; /* Tambahkan padding bawah agar tombol tidak tertutup bottom menu */
+}
+
+.bottom-menu {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  padding: 10px;
+  z-index: 10;
+}
+
+.bottom-menu a {
+  margin: 0 15px;
+  font-size: 24px;
+}
+    @media (max-width: 768px) {
+  .content {
+    padding-bottom: 120px; /* Padding lebih besar di perangkat mobile */
+  }
+
+  .bottom-menu {
+    font-size: 18px;
+    padding: 12px;
+  }
+}
+
+
     .badge { margin-right: 5px; }
   </style>
 </head>
@@ -53,26 +85,27 @@
           </div>
 
           <div id="formPage" class="content hidden">
-            <h2>Form Input Data</h2>
-            <form onsubmit="submitForm(event)">
-              <input type="text" class="form-control mb-2" id="wo" placeholder="No WO" required />
-              <input type="text" class="form-control mb-2" id="tiket" placeholder="Nomor Tiket" required />
-              <input type="datetime-local" class="form-control mb-2" id="tglLaporan" required />
-              <input type="text" class="form-control mb-2" id="inet" placeholder="Nomor Inet" />
-              <input type="text" class="form-control mb-2" id="kategori" placeholder="Kategori Pelanggan" />
-              <input type="text" class="form-control mb-2" id="nama" placeholder="Nama Pelanggan" />
-              <textarea class="form-control mb-2" id="alamat" placeholder="Alamat"></textarea>
-              <input type="text" class="form-control mb-2" id="hp" placeholder="No HP" />
-              <textarea class="form-control mb-2" id="keluhan" placeholder="Keluhan"></textarea>
-              <input type="text" class="form-control mb-2" id="status" placeholder="Status" />
-              <input type="text" class="form-control mb-2" id="ttr" placeholder="TTR" />
-              <input type="datetime-local" class="form-control mb-2" id="pickup" placeholder="Pickup Time" />
-              <input type="datetime-local" class="form-control mb-2" id="completed" placeholder="Completed Time" />
-              <textarea class="form-control mb-2" id="keterangan" placeholder="Keterangan"></textarea>
-              <input type="text" class="form-control mb-3" id="teknisi" placeholder="Nama Teknisi" />
-              <button type="submit" class="btn btn-success">Simpan</button>
-            </form>
-          </div>
+  <h2>Form Input Data</h2>
+  <form onsubmit="submitForm(event)">
+    <input type="text" class="form-control mb-2" id="wo" placeholder="No WO" required />
+    <input type="text" class="form-control mb-2" id="tiket" placeholder="Nomor Tiket" required />
+    <input type="datetime-local" class="form-control mb-2" id="tglLaporan" required />
+    <input type="text" class="form-control mb-2" id="inet" placeholder="Nomor Inet" />
+    <input type="text" class="form-control mb-2" id="kategori" placeholder="Kategori Pelanggan" />
+    <input type="text" class="form-control mb-2" id="nama" placeholder="Nama Pelanggan" />
+    <textarea class="form-control mb-2" id="alamat" placeholder="Alamat"></textarea>
+    <input type="text" class="form-control mb-2" id="hp" placeholder="No HP" />
+    <textarea class="form-control mb-2" id="keluhan" placeholder="Keluhan"></textarea>
+    <input type="text" class="form-control mb-2" id="status" placeholder="Status" />
+    <input type="text" class="form-control mb-2" id="ttr" placeholder="TTR" />
+    <input type="datetime-local" class="form-control mb-2" id="pickup" placeholder="Pickup Time" />
+    <input type="datetime-local" class="form-control mb-2" id="completed" placeholder="Completed Time" />
+    <textarea class="form-control mb-2" id="keterangan" placeholder="Keterangan"></textarea>
+    <input type="text" class="form-control mb-3" id="teknisi" placeholder="Nama Teknisi" />
+    <button type="submit" class="btn btn-success btn-block">Simpan</button> <!-- Tombol Simpan -->
+  </form>
+</div>
+
 
           <div id="reportPage" class="content hidden">
             <h2>Laporan WO</h2>
