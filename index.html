@@ -280,6 +280,20 @@ let selectedIndex = -1;
 function showDetail(index) {
   selectedIndex = index;
   const d = dataList[index];
+
+  let actionButtons = '';
+
+  if (d.status === "Picked Up") {
+    actionButtons = `
+      <button class="btn btn-warning me-2" onclick="backToHO()">Back to HO</button>
+      <button class="btn btn-success" onclick="markCompleted()">Completed</button>
+    `;
+  } else if (d.status === "Completed" || d.status === "Back to HO") {
+    actionButtons = `<span class="badge bg-secondary">Status: ${d.status}</span>`;
+  } else {
+    actionButtons = `<button class="btn btn-primary" onclick="markPickedUp()">Pickup</button>`;
+  }
+
   document.getElementById("detailContent").innerHTML = `
     <p><strong>No WO:</strong> ${d.wo}</p>
     <p><strong>Nomor Tiket:</strong> ${d.tiket}</p>
@@ -288,10 +302,11 @@ function showDetail(index) {
     <p><strong>Alamat:</strong> ${d.alamat}</p>
     <p><strong>Keluhan:</strong> ${d.keluhan}</p>
     <p><strong>Status:</strong> ${d.status}</p>
-    <p><strong>Teknisi:</strong> ${d.teknisi}</p>
+    <div class="mt-3">${actionButtons}</div>
   `;
   showPage('detail');
 }
+
 
 function backToHO() {
   alert("Mengirim kembali ke HO...");
@@ -304,6 +319,26 @@ function markCompleted() {
   alert("Menandai sebagai selesai...");
   dataList[selectedIndex].status = "Completed";
   dataList[selectedIndex].completed = new Date().toISOString().slice(0, 16);
+  showPage('report');
+}
+
+    function markPickedUp() {
+  dataList[selectedIndex].status = "Picked Up";
+  dataList[selectedIndex].pickup = new Date().toISOString().slice(0, 16);
+  alert("WO diambil oleh teknisi.");
+  showDetail(selectedIndex);
+}
+
+function backToHO() {
+  dataList[selectedIndex].status = "Back to HO";
+  alert("WO dikembalikan ke HO.");
+  showPage('report');
+}
+
+function markCompleted() {
+  dataList[selectedIndex].status = "Completed";
+  dataList[selectedIndex].completed = new Date().toISOString().slice(0, 16);
+  alert("WO ditandai sebagai selesai.");
   showPage('report');
 }
 
