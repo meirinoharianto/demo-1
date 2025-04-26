@@ -195,3 +195,34 @@ function showPerformanceReport() {
 if (currentUserRole === 'admin') {
   showPerformanceReport();
 }
+
+// Inisialisasi map setelah halaman dashboard ditampilkan
+function initMap() {
+  const map = L.map('map').setView([-6.200000, 106.816666], 11); // Lokasi Jakarta
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Contoh marker (bisa dikembangkan untuk menunjukkan lokasi teknisi/WO)
+  L.marker([-6.200000, 106.816666]).addTo(map)
+    .bindPopup('Kantor Pusat')
+    .openPopup();
+}
+
+// Jalankan initMap saat dashboard ditampilkan
+function showPage(page) {
+  const pages = ['dashboard', 'form', 'report', 'performance', 'detail'];
+  pages.forEach(p => {
+    document.getElementById(p + 'Page').classList.add('hidden');
+  });
+
+  document.getElementById(page + 'Page').classList.remove('hidden');
+
+  // Jika dashboard, tampilkan peta
+  if (page === 'dashboard') {
+    setTimeout(() => {
+      initMap();
+    }, 300); // Delay kecil agar elemen map sudah terlihat
+  }
+}
+
