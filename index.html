@@ -274,6 +274,37 @@ function login(e) {
   });
 }
 
+let selectedIndex = -1;
+
+function showDetail(index) {
+  selectedIndex = index;
+  const d = dataList[index];
+  document.getElementById("detailContent").innerHTML = `
+    <p><strong>No WO:</strong> ${d.wo}</p>
+    <p><strong>Nomor Tiket:</strong> ${d.tiket}</p>
+    <p><strong>Tanggal Laporan:</strong> ${d.tglLaporan}</p>
+    <p><strong>Nama:</strong> ${d.nama}</p>
+    <p><strong>Alamat:</strong> ${d.alamat}</p>
+    <p><strong>Keluhan:</strong> ${d.keluhan}</p>
+    <p><strong>Status:</strong> ${d.status}</p>
+    <p><strong>Teknisi:</strong> ${d.teknisi}</p>
+  `;
+  showPage('detail');
+}
+
+function backToHO() {
+  alert("Mengirim kembali ke HO...");
+  // contoh update status
+  dataList[selectedIndex].status = "Back to HO";
+  showPage('report');
+}
+
+function markCompleted() {
+  alert("Menandai sebagai selesai...");
+  dataList[selectedIndex].status = "Completed";
+  dataList[selectedIndex].completed = new Date().toISOString().slice(0, 16);
+  showPage('report');
+}
 
   </script>
 </body>
