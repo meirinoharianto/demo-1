@@ -225,9 +225,22 @@ function login(e) {
 
 
     function logout() {
-      document.getElementById("app").classList.add("hidden");
-      document.getElementById("loginPage").classList.remove("hidden");
-    }
+  currentUser = "";
+  currentRole = "";
+
+  // Reset UI
+  document.getElementById("app").classList.add("hidden");
+  document.getElementById("loginPage").classList.remove("hidden");
+
+  // Tampilkan kembali semua menu
+  document.querySelectorAll('.sidebar a, .bottom-menu a').forEach(a => {
+    a.style.display = "block";
+  });
+
+  // Sembunyikan logout khusus teknisi
+  document.getElementById("menuLogout").classList.add("d-none");
+}
+
 
     function showPage(page) {
   ['dashboardPage', 'formPage', 'reportPage', 'detailPage'].forEach(id =>
