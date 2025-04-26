@@ -41,6 +41,7 @@
             <a href="#" id="menuDashboard" onclick="showPage('dashboard')"><i class="fas fa-home"></i> Dashboard</a>
             <a href="#" id="menuForm" onclick="showPage('form')"><i class="fas fa-plus"></i> Form</a>
             <a href="#" id="menuReport" onclick="showPage('report')"><i class="fas fa-list"></i> Daftar WO</a>
+            <a href="#" id="menuPerformance" class="d-none" onclick="showPage('performance')"><i class="fas fa-chart-line"></i> Laporan Performa Teknisi</a>
             <a href="#" id="menuLogout" class="d-none" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
           </div>
         </div>
@@ -89,6 +90,21 @@
                 </tr>
               </thead>
               <tbody id="reportTable"></tbody>
+            </table>
+          </div>
+
+          <div id="performancePage" class="content hidden">
+            <h2>Laporan Performa Teknisi</h2>
+            <table class="table">
+              <thead class="table-dark">
+                <tr>
+                  <th>Teknisi</th>
+                  <th>Total WO</th>
+                  <th>Completed</th>
+                  <th>In Progress</th>
+                </tr>
+              </thead>
+              <tbody id="performanceTable"></tbody>
             </table>
           </div>
 
