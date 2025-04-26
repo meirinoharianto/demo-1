@@ -198,33 +198,48 @@ if (currentUserRole === 'admin') {
 
 // Inisialisasi map setelah halaman dashboard ditampilkan
 function initMap() {
-  const map = L.map('map').setView([-7.1607, 112.6538], 13); // Titik pusat Gresik
+  const map = L.map('map').setView([-7.1607, 112.6538], 13);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
   }).addTo(map);
 
-  // Titik perjalanan di Gresik
-  const titikPerjalanan = [
-    { lat: -7.1534, lon: 112.6550, label: "Start - Perum GKB" },
-    { lat: -7.1625, lon: 112.6520, label: "Checkpoint - Alun-alun Gresik" },
-    { lat: -7.1712, lon: 112.6487, label: "Finish - Terminal Gresik" }
+  // Contoh data WO
+  const dataWO = [
+    { nama: "Pak Budi", alamat: "Perum GKB", status: "Open", lat: -7.1534, lon: 112.6550 },
+    { nama: "Bu Sari", alamat: "Alun-alun Gresik", status: "Picked Up", lat: -7.1625, lon: 112.6520 },
+    { nama: "Pak Joko", alamat: "Terminal Gresik", status: "Completed", lat: -7.1712, lon: 112.6487 }
   ];
 
   const latlngs = [];
 
-  titikPerjalanan.forEach(titik => {
-    const marker = L.marker([titik.lat, titik.lon]).addTo(map)
-      .bindPopup(titik.label);
-    latlngs.push([titik.lat, titik.lon]);
+  const tableBody = document.getElementById('dashboardWOTable');
+  tableBody.innerHTML = ''; // Kosongkan isi sebelumnya
+
+  dataWO.forEach((wo, index) => {
+    // Tambahkan marker ke peta
+    L.marker([wo.lat, wo.lon])
+      .addTo(map)
+      .bindPopup(`${wo.nama}<br>${wo.alamat}<br>Status: ${wo.status}`);
+
+    latlngs.push([wo.lat, wo.lon]);
+
+    // Tambahkan baris ke tabel
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${wo.nama}</td>
+      <td>${wo.alamat}</td>
+      <td>${wo.status}</td>
+    `;
+    tableBody.appendChild(row);
   });
 
-  // Gambar garis polyline yang menghubungkan ketiga titik
-  const perjalananLine = L.polyline(latlngs, { color: 'blue' }).addTo(map);
-
-  // Zoom agar seluruh jalur terlihat
-  map.fitBounds(perjalananLine.getBounds());
+  // Hubungkan titik-titik sebagai garis perjalanan
+  const polyline = L.polyline(latlngs, { color: 'blue' }).addTo(map);
+  map.fitBounds(polyline.getBounds());
 }
+
 
 
 // Jalankan initMap saat dashboard ditampilkan
