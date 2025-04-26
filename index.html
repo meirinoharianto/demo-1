@@ -201,8 +201,8 @@ function login(e) {
     showPage('report');
     // Sembunyikan menu lain
     document.querySelectorAll('.sidebar a, .bottom-menu a').forEach(a => {
-      if (!a.innerHTML.includes("Laporan")) {
-        a.style.display = "none";
+      if (!text.includes('laporan') && !text.includes('keluar')) {
+        link.style.display = "none";
       }
     });
   }
