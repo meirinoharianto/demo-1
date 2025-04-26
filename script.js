@@ -198,16 +198,34 @@ if (currentUserRole === 'admin') {
 
 // Inisialisasi map setelah halaman dashboard ditampilkan
 function initMap() {
-  const map = L.map('map').setView([-6.200000, 106.816666], 11); // Lokasi Jakarta
+  const map = L.map('map').setView([-7.1607, 112.6538], 13); // Titik pusat Gresik
+
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
   }).addTo(map);
 
-  // Contoh marker (bisa dikembangkan untuk menunjukkan lokasi teknisi/WO)
-  L.marker([-6.200000, 106.816666]).addTo(map)
-    .bindPopup('Kantor Pusat')
-    .openPopup();
+  // Titik perjalanan di Gresik
+  const titikPerjalanan = [
+    { lat: -7.1534, lon: 112.6550, label: "Start - Perum GKB" },
+    { lat: -7.1625, lon: 112.6520, label: "Checkpoint - Alun-alun Gresik" },
+    { lat: -7.1712, lon: 112.6487, label: "Finish - Terminal Gresik" }
+  ];
+
+  const latlngs = [];
+
+  titikPerjalanan.forEach(titik => {
+    const marker = L.marker([titik.lat, titik.lon]).addTo(map)
+      .bindPopup(titik.label);
+    latlngs.push([titik.lat, titik.lon]);
+  });
+
+  // Gambar garis polyline yang menghubungkan ketiga titik
+  const perjalananLine = L.polyline(latlngs, { color: 'blue' }).addTo(map);
+
+  // Zoom agar seluruh jalur terlihat
+  map.fitBounds(perjalananLine.getBounds());
 }
+
 
 // Jalankan initMap saat dashboard ditampilkan
 function showPage(page) {
