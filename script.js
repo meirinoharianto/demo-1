@@ -7,7 +7,6 @@ function login(e) {
   const user = document.getElementById("username").value;
   const pass = document.getElementById("password").value;
 
-  // Cek role
   if (user === "admin" && pass === "admin") {
     currentUser = "admin";
     currentRole = "admin";
@@ -22,12 +21,7 @@ function login(e) {
   document.getElementById("loginPage").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
 
-  // Default tampilkan semua menu
-  document.querySelectorAll('.sidebar a, .bottom-menu a').forEach(a => {
-    a.style.display = "block";
-  });
-
-  // Sembunyikan menu untuk teknisi (hanya tampilkan laporan & logout)
+  // Sembunyikan/Perlihatkan menu berdasarkan role
   if (currentRole === "teknisi") {
     document.getElementById("menuDashboard").style.display = "none";
     document.getElementById("menuForm").style.display = "none";
@@ -36,24 +30,14 @@ function login(e) {
     showPage('dashboard');
   }
 
-  // Pastikan menu logout selalu tampil
   document.getElementById("menuLogout").classList.remove("d-none");
 }
 
 function logout() {
   currentUser = "";
   currentRole = "";
-
-  // Reset UI
   document.getElementById("app").classList.add("hidden");
   document.getElementById("loginPage").classList.remove("hidden");
-
-  // Tampilkan kembali semua menu
-  document.querySelectorAll('.sidebar a, .bottom-menu a').forEach(a => {
-    a.style.display = "block";
-  });
-
-  // Sembunyikan logout khusus teknisi
   document.getElementById("menuLogout").classList.add("d-none");
 }
 
@@ -69,7 +53,7 @@ function submitForm(e) {
     alamat: document.getElementById('alamat').value,
     hp: document.getElementById('hp').value,
     keluhan: document.getElementById('keluhan').value,
-    status: document.getElementById('status').value,
+    status: "Menunggu Pickup", // Status awal
     ttr: document.getElementById('ttr').value,
     pickup: document.getElementById('pickup').value,
     completed: document.getElementById('completed').value,
@@ -95,18 +79,7 @@ function updateReport() {
       <td>${data.wo}</td>
       <td>${data.tiket}</td>
       <td>${data.tglLaporan}</td>
-      <td>${data.inet}</td>
-      <td>${data.kategori}</td>
-      <td>${data.nama}</td>
-      <td>${data.alamat}</td>
-      <td>${data.hp}</td>
-      <td>${data.keluhan}</td>
       <td>${data.status}</td>
-      <td>${data.ttr}</td>
-      <td>${data.pickup}</td>
-      <td>${data.completed}</td>
-      <td>${data.keterangan}</td>
-      <td>${data.teknisi}</td>
       <td><button class="btn btn-info" onclick="showDetail(${index})">Detail</button></td>
     </tr>
   `).join('');
@@ -118,20 +91,24 @@ function showDetail(index) {
     <p><strong>No WO:</strong> ${d.wo}</p>
     <p><strong>Nomor Tiket:</strong> ${d.tiket}</p>
     <p><strong>Tanggal Laporan:</strong> ${d.tglLaporan}</p>
-    <p><strong>Nama:</strong> ${d.nama}</p>
-    <p><strong>Alamat:</strong> ${d.alamat}</p>
-    <p><strong>Keluhan:</strong> ${d.keluhan}</p>
     <p><strong>Status:</strong> ${d.status}</p>
-    <button class="btn btn-primary" onclick="markPickedUp(${index})">Pickup</button>
-    <button class="btn btn-warning" onclick="backToHO(${index})">Back to HO</button>
-    <button class="btn btn-success" onclick="markCompleted(${index})">Completed</button>
+    <button class="btn btn-primary" onclick="pickup(${index})" ${d.status !== "Menunggu Pickup" ? 'disabled' : ''}>Pickup</button>
+    <button class="btn btn-secondary" onclick="cancel(${index})">Batal</button>
+    <button class="btn btn-warning" onclick="backToHO(${index})" ${d.status !== "Picked Up" ? 'disabled' : ''}>Back to HO</button>
+    <button class="btn btn-success" onclick="complete(${index})" ${d.status !== "Back to HO" ? 'disabled' : ''}>Completed</button>
   `;
   showPage('detail');
 }
 
-function markPickedUp(index) {
+function pickup(index) {
   dataList[index].status = "Picked Up";
-  alert("WO diambil oleh teknisi.");
+  alert("WO telah diambil oleh teknisi.");
+  updateReport();
+}
+
+function cancel(index) {
+  dataList[index].status = "Menunggu Pickup"; // Kembalikan status ke semula
+  alert("Pickup batal.");
   updateReport();
 }
 
@@ -141,8 +118,8 @@ function backToHO(index) {
   updateReport();
 }
 
-function markCompleted(index) {
+function complete(index) {
   dataList[index].status = "Completed";
-  alert("WO ditandai sebagai selesai.");
+  alert("WO selesai.");
   updateReport();
 }
