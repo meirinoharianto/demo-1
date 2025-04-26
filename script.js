@@ -87,15 +87,31 @@ function updateReport() {
 
 function showDetail(index) {
   const d = dataList[index];
+  let buttonsHtml = '';
+
+  // Tombol berdasarkan status awal
+  if (d.status === "Menunggu Pickup") {
+    buttonsHtml = `
+      <button class="btn btn-primary" onclick="pickup(${index})">Pickup</button>
+      <button class="btn btn-secondary" onclick="cancel(${index})">Batal</button>
+    `;
+  } else if (d.status === "Picked Up") {
+    buttonsHtml = `
+      <button class="btn btn-warning" onclick="backToHO(${index})">Back to HO</button>
+      <button class="btn btn-success" onclick="complete(${index})">Completed</button>
+    `;
+  } else if (d.status === "Back to HO") {
+    buttonsHtml = `
+      <button class="btn btn-success" onclick="complete(${index})">Completed</button>
+    `;
+  }
+
   document.getElementById('detailContent').innerHTML = `
     <p><strong>No WO:</strong> ${d.wo}</p>
     <p><strong>Nomor Tiket:</strong> ${d.tiket}</p>
     <p><strong>Tanggal Laporan:</strong> ${d.tglLaporan}</p>
     <p><strong>Status:</strong> ${d.status}</p>
-    <button class="btn btn-primary" onclick="pickup(${index})" ${d.status !== "Menunggu Pickup" ? 'disabled' : ''}>Pickup</button>
-    <button class="btn btn-secondary" onclick="cancel(${index})">Batal</button>
-    <button class="btn btn-warning" onclick="backToHO(${index})" ${d.status !== "Picked Up" ? 'disabled' : ''}>Back to HO</button>
-    <button class="btn btn-success" onclick="complete(${index})" ${d.status !== "Back to HO" ? 'disabled' : ''}>Completed</button>
+    ${buttonsHtml}
   `;
   showPage('detail');
 }
