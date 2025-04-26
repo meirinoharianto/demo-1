@@ -160,12 +160,43 @@
   <script>
     let dataList = [];
 
-    function login(e) {
-      e.preventDefault();
-      document.getElementById("loginPage").classList.add("hidden");
-      document.getElementById("app").classList.remove("hidden");
-      showPage('dashboard');
-    }
+    let currentUser = '';
+let currentRole = '';
+
+function login(e) {
+  e.preventDefault();
+  const user = document.getElementById("username").value;
+  const pass = document.getElementById("password").value;
+
+  // Simulasi role
+  if (user === "admin" && pass === "admin") {
+    currentUser = "admin";
+    currentRole = "admin";
+  } else if (user === "teknisi" && pass === "teknisi") {
+    currentUser = "teknisi";
+    currentRole = "teknisi";
+  } else {
+    alert("Username atau password salah!");
+    return;
+  }
+
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+
+  // Admin ke dashboard, teknisi ke report list
+  if (currentRole === "admin") {
+    showPage('dashboard');
+  } else {
+    showPage('report');
+    // Sembunyikan menu lain
+    document.querySelectorAll('.sidebar a, .bottom-menu a').forEach(a => {
+      if (!a.innerHTML.includes("Laporan")) {
+        a.style.display = "none";
+      }
+    });
+  }
+}
+
 
     function logout() {
       document.getElementById("app").classList.add("hidden");
