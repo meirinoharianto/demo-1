@@ -26,6 +26,7 @@ function login(e) {
 function showMenuForRole() {
   if (currentUserRole === 'admin') {
     document.getElementById('menuPerformance').classList.remove('d-none');
+    document.getElementById('menuForm').classList.remove('d-none');
     document.getElementById('menuReport').classList.remove('d-none');
   } else {
     document.getElementById('menuPerformance').classList.add('d-none');
