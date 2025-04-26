@@ -10,6 +10,9 @@
     .hidden { display: none; }
     .content { padding: 20px; }
     .badge { margin-right: 5px; }
+    .sidebar { height: 100vh; }
+    .sidebar .nav-link { color: #333; }
+    .sidebar .nav-link:hover { background-color: #f8f9fa; }
   </style>
 </head>
 <body>
@@ -33,20 +36,48 @@
 
   <!-- Halaman Aplikasi -->
   <div id="app" class="hidden">
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
-        <div class="col-md-2">
-          <!-- Sidebar Menu -->
-          <div class="sidebar">
-            <a href="#" id="menuDashboard" onclick="showPage('dashboard')"><i class="fas fa-home"></i> Dashboard</a>
-            <a href="#" id="menuForm" onclick="showPage('form')"><i class="fas fa-plus"></i> Form</a>
-            <a href="#" id="menuReport" onclick="showPage('report')"><i class="fas fa-list"></i> Daftar WO</a>
-            <a href="#" id="menuPerformance" class="d-none" onclick="showPage('performance')"><i class="fas fa-chart-line"></i> Laporan Performa Teknisi</a>
-            <a href="#" id="menuLogout" class="d-none" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <!-- Sidebar Menu -->
+        <nav id="sidebar" class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" href="#" id="menuDashboard" onclick="showPage('dashboard')">
+                  <i class="fas fa-home"></i> Dashboard
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="menuForm" onclick="showPage('form')">
+                  <i class="fas fa-plus"></i> Form
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="menuReport" onclick="showPage('report')">
+                  <i class="fas fa-list"></i> Daftar WO
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-none" href="#" id="menuPerformance" onclick="showPage('performance')">
+                  <i class="fas fa-chart-line"></i> Laporan Performa Teknisi
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-none" href="#" id="menuLogout" onclick="logout()">
+                  <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+              </li>
+            </ul>
           </div>
-        </div>
+        </nav>
 
-        <div class="col-md-10">
+        <!-- Main Content Area -->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <!-- Toggle Sidebar for Mobile -->
+          <button class="btn btn-primary d-md-none" id="sidebarToggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i> Menu
+          </button>
+
           <!-- Konten Aplikasi -->
           <div id="dashboardPage" class="content hidden">
             <h2>Dashboard</h2>
@@ -112,7 +143,7 @@
             <h2>Detail WO</h2>
             <div id="detailContent" class="mb-3"></div>
           </div>
-        </div>
+        </main>
       </div>
     </div>
   </div>
