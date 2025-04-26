@@ -217,23 +217,30 @@ function initMap() {
   tableBody.innerHTML = ''; // Kosongkan isi sebelumnya
 
   dataWO.forEach((wo, index) => {
-    // Tambahkan marker ke peta
-    L.marker([wo.lat, wo.lon])
-      .addTo(map)
-      .bindPopup(`${wo.nama}<br>${wo.alamat}<br>Status: ${wo.status}`);
+  // Tambahkan marker ke peta
+  const marker = L.marker([wo.lat, wo.lon])
+    .addTo(map)
+    .bindPopup(`${wo.nama}<br>${wo.alamat}<br>Status: ${wo.status}`)
+    .bindTooltip(`${index + 1}. ${wo.nama}`, {
+      permanent: true,
+      direction: 'top',
+      offset: [0, -10],
+      className: 'map-label'
+    });
 
-    latlngs.push([wo.lat, wo.lon]);
+  latlngs.push([wo.lat, wo.lon]);
 
-    // Tambahkan baris ke tabel
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${index + 1}</td>
-      <td>${wo.nama}</td>
-      <td>${wo.alamat}</td>
-      <td>${wo.status}</td>
-    `;
-    tableBody.appendChild(row);
-  });
+  // Tambahkan baris ke tabel
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td>${index + 1}</td>
+    <td>${wo.nama}</td>
+    <td>${wo.alamat}</td>
+    <td>${wo.status}</td>
+  `;
+  tableBody.appendChild(row);
+});
+
 
   // Hubungkan titik-titik sebagai garis perjalanan
   const polyline = L.polyline(latlngs, { color: 'blue' }).addTo(map);
