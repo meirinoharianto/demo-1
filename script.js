@@ -2,45 +2,47 @@ let currentUser = '';
 let currentRole = '';
 let dataList = [];
 
+let currentUserRole = '';  // Role user saat ini
+
 function login(e) {
   e.preventDefault();
-  const user = document.getElementById("username").value;
-  const pass = document.getElementById("password").value;
 
-  if (user === "admin" && pass === "admin") {
-    currentUser = "admin";
-    currentRole = "admin";
-  } else if (user === "teknisi" && pass === "teknisi") {
-    currentUser = "teknisi";
-    currentRole = "teknisi";
-  } else {
-    alert("Username atau password salah!");
-    return;
-  }
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
 
-  document.getElementById("loginPage").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-
-  // Sembunyikan/Perlihatkan menu berdasarkan role
-  if (currentRole === "teknisi") {
-    document.getElementById("menuDashboard").style.display = "none";
-    document.getElementById("menuForm").style.display = "none";
-    showPage('report');
-  } else {
+  // Login sederhana dengan hardcoded username/password
+  if (username === 'admin' && password === 'admin') {
+    currentUserRole = 'admin'; // Role admin
     showPage('dashboard');
-    document.getElementById("menuPerformance").classList.remove("d-none");
+    showMenuForRole();
+  } else if (username === 'teknisi' && password === 'teknisi') {
+    currentUserRole = 'teknisi'; // Role teknisi
+    showPage('report');
+    showMenuForRole();
+  } else {
+    alert('Username atau Password salah!');
   }
+}
 
-  document.getElementById("menuLogout").classList.remove("d-none");
+function showMenuForRole() {
+  if (currentUserRole === 'admin') {
+    document.getElementById('menuPerformance').classList.remove('d-none');
+    document.getElementById('menuReport').classList.remove('d-none');
+  } else {
+    document.getElementById('menuPerformance').classList.add('d-none');
+  }
+  document.getElementById('menuLogout').classList.remove('d-none');
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
 }
 
 function logout() {
-  currentUser = "";
-  currentRole = "";
-  document.getElementById("app").classList.add("hidden");
-  document.getElementById("loginPage").classList.remove("hidden");
-  document.getElementById("menuLogout").classList.add("d-none");
+  currentUserRole = '';
+  document.getElementById('loginPage').classList.remove('hidden');
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('menuPerformance').classList.add('d-none');
 }
+
 
 function submitForm(e) {
   e.preventDefault();
