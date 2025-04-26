@@ -6,6 +6,11 @@
   <title>Dashboard Aplikasi</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
   <style>
     .hidden { display: none; }
     .content { padding: 20px; }
@@ -83,7 +88,12 @@
           <div id="dashboardPage" class="content hidden">
             <h2>Dashboard</h2>
             <p>Selamat datang di dashboard!</p>
-          </div>
+<!--           </div>
+          <div id="dashboardPage" class="content hidden"> -->
+  <h2>Dashboard</h2>
+  <div id="map" style="height: 400px;"></div>
+</div>
+
 
           <div id="formPage" class="content hidden">
             <h2>Form Input Data</h2>
