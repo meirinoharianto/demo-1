@@ -92,4 +92,54 @@ function updatePerformance() {
   // Menghitung jumlah WO per teknisi dan statusnya
   dataList.forEach(data => {
     const teknisi = data.teknisi;
-    if (!teknisiData[te
+    if (!teknisiData[teknisi]) {
+      teknisiData[teknisi] = { total: 0, completed: 0, inProgress: 0 };
+    }
+    teknisiData[teknisi].total++;
+    if (data.status === "Completed") {
+      teknisiData[teknisi].completed++;
+    } else {
+      teknisiData[teknisi].inProgress++;
+    }
+  });
+
+  const tableBody = document.getElementById("performanceTable");
+  tableBody.innerHTML = Object.keys(teknisiData).map(teknisi => `
+    <tr>
+      <td>${teknisi}</td>
+      <td>${teknisiData[teknisi].total}</td>
+      <td>${teknisiData[teknisi].completed}</td>
+      <td>${teknisiData[teknisi].inProgress}</td>
+    </tr>
+  `).join('');
+}
+
+function showDetail(index) {
+  const d = dataList[index];
+  let buttonsHtml = '';
+
+  if (d.status === "Menunggu Pickup") {
+    buttonsHtml = `
+      <button class="btn btn-primary" onclick="pickup(${index})">Pickup</button>
+      <button class="btn btn-secondary" onclick="cancel(${index})">Batal</button>
+    `;
+  } else if (d.status === "Picked Up") {
+    buttonsHtml = `
+      <button class="btn btn-warning" onclick="backToHO(${index})">Back to HO</button>
+      <button class="btn btn-success" onclick="complete(${index})">Completed</button>
+    `;
+  } else if (d.status === "Back to HO") {
+    buttonsHtml = `
+      <button class="btn btn-success" onclick="complete(${index})">Completed</button>
+    `;
+  }
+
+  document.getElementById('detailContent').innerHTML = `
+    <p><strong>No WO:</strong> ${d.wo}</p>
+    <p><strong>Nomor Tiket:</strong> ${d.tiket}</p>
+    <p><strong>Tanggal Laporan:</strong> ${d.tglLaporan}</p>
+    <p><strong>Status:</strong> ${d.status}</p>
+    ${buttonsHtml}
+  `;
+  showPage('detail');
+}
